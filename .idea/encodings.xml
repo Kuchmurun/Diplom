@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="ISO-8859-1">
+    <file url="file://$PROJECT_DIR$" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/CreateServlet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/CurrencyServlet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/DeleteServlet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/ErrorChecker.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/FillWallet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/IndexServlet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/Status.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/UpdateServlet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/Wallet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/WalletDAO.java" charset="UTF-8" />
+  </component>
+</project>
