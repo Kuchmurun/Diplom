@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пополнение</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<h1>Пополнение кошелька</h1>
+<form method="post" th:action="@{/fill}" th:object="${fillDto}">
+    <label>Номер кошелька: <br><input name="id" th:field="*{id}" type="number">
+        <span class="field-error" th:errors="*{id}" th:if="${#fields.hasErrors('id')}"></span>
+    </label><br><br>
+
+    <label>Сумма: <br><input name="amount" th:field="*{amount}" type="number">
+        <span class="field-error" th:errors="*{amount}" th:if="${#fields.hasErrors('amount')}"></span>
+    </label><br><br>
+
+    <label>Валюта: </label><br><br>
+    <label><input name="currency" th:field="*{currency}" th:value="rub" type="radio"></label>
+    <label>- Рубли</label>
+    <label><input name="currency" th:field="*{currency}" th:value="usd" type="radio"></label>
+    <label>- Доллары</label>
+    <label><input name="currency" th:field="*{currency}" th:value="eur" type="radio"></label>
+    <label>- Евро</label>
+    <span class="field-error" th:errors="*{currency}" th:if="${#fields.hasErrors('currency')}"></span><br><br>
+
+    <button type="submit">Сохранить</button>
+    <a th:href="@{/index}">
+        <button type="button">Вернуться на главную</button>
+    </a>
+</form>
+</body>
+</html>

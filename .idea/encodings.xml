@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="ISO-8859-1">
     <file url="file://$PROJECT_DIR$" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/CreateServlet.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/CurrencyServlet.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/DeleteServlet.java" charset="UTF-8" />

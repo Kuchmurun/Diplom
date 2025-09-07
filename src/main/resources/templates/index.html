@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Кошельки</title>
+</head>
+<body>
+<h1>Система администрирования кошельков</h1>
+
+<table>
+    <tr>
+        <th>Номер кошелька</th>
+        <th>Фамилия</th>
+        <th>Имя</th>
+        <th>Отчество</th>
+        <th>Номер паспорта</th>
+        <th>Рубли</th>
+        <th>Доллары</th>
+        <th>Евро</th>
+        <th>Статус кошелька</th>
+    </tr>
+
+    <tr th:each="walletEntity : ${wallets}">
+        <td th:text="${walletEntity.id}"></td>
+        <td th:text="${walletEntity.last_name}"></td>
+        <td th:text="${walletEntity.first_name}"></td>
+        <td th:text="${walletEntity.middle_name}"></td>
+        <td th:text="${walletEntity.passport_id}"></td>
+        <td th:text="${walletEntity.rub}"></td>
+        <td th:text="${walletEntity.usd}"></td>
+        <td th:text="${walletEntity.eur}"></td>
+        <td th:text="${walletEntity.walletStatus}"></td>
+    </tr>
+</table>
+<p><a th:href="@{/fill}">Пополнить счёт</a></p>
+<p><a th:href="@{/currency}">Обмен валют</a></p>
+<p><a class="btn" th:href="@{/update}">Обновить кошелёк</a></p>
+<p><a class="btn" th:href="@{/create}">Добавить кошелёк</a></p>
+<p><a class="btn" th:href="@{/delete}">Удалить кошелёк</a></p>
+...Новые функции или кнопки...
+</body>
+</html>
