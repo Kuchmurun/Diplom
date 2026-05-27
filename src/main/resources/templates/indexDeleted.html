@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Кошельки</title>
+    <title>Title</title>
 </head>
 <body>
-<h1>Система администрирования кошельков</h1>
+<h1>Удаленные кошельки</h1>
 
 <table>
     <tr>
@@ -32,12 +32,6 @@
         <td th:text="${walletEntity.walletStatus}"></td>
     </tr>
 </table>
-<p><a th:href="@{/fill}">Пополнить счёт</a></p>
-<p><a th:href="@{/currency}">Обмен валют</a></p>
-<p><a class="btn" th:href="@{/update}">Обновить кошелёк</a></p>
-<p><a class="btn" th:href="@{/create}">Добавить кошелёк</a></p>
-<p><a class="btn" th:href="@{/delete}">Удалить кошелёк</a></p>
-<p><a class="btn" th:href="@{/indexDeleted}">Удаленные кошельки</a></p>
-...Новые функции или кнопки...
+<p><a class="btn" th:href="@{/index}">Вернуться на главную страницу</a></p>
 </body>
 </html>

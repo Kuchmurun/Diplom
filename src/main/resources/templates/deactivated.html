@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Кошелек деактивирован.</h1>
+
+<form method="post" th:action="@{/deactivated}">
+    <h2>Нужно ли восстановить кошелек?</h2>
+    <input name="walletId" th:value="${walletId}" type="hidden">
+    <label>
+        <select name="operation">
+            <option value="True">Да</option>
+            <option value="False">Нет</option>
+        </select>
+    </label>
+    <button type="submit">Выполнить действие.</button>
+</form>
+</body>
+</html>

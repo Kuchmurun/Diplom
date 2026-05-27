@@ -1,86 +1,77 @@
 package com.example.wallet.repository;
 
 import com.example.wallet.entity.WalletEntity;
-import com.example.wallet.service.FillWallet;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+
 
 @Repository
-public class WalletRepository implements DAO {
-    public static final RowMapper<WalletEntity> walletRowMapper = new RowMapper<WalletEntity>() {
-        @Override
-        public WalletEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-            WalletEntity walletEntity = new WalletEntity();
-            walletEntity.setId(rs.getInt("id"));
-            walletEntity.setFirst_name(rs.getString("first_name"));
-            walletEntity.setMiddle_name(rs.getString("middle_name"));
-            walletEntity.setLast_name(rs.getString("last_name"));
-            walletEntity.setPassport_id(rs.getInt("passport_id"));
-            walletEntity.setRub(rs.getDouble("rub"));
-            walletEntity.setUsd(rs.getDouble("usd"));
-            walletEntity.setEur(rs.getDouble("eur"));
-            walletEntity.setWalletStatus(rs.getString("wallet_status"));
-            return walletEntity;
-        }
-    };
-    private final JdbcTemplate template;
-    private final FillWallet wallet;
+public interface WalletRepository extends JpaRepository<WalletEntity, Long> {
 
-    WalletRepository(JdbcTemplate template, FillWallet wallet) {
-        this.template = template;
-        this.wallet = wallet;
-    }
 
-    @Override
-    public List<WalletEntity> readWallet() {
-        String sql = "SELECT * FROM wallets;";
-        return template.query(sql, walletRowMapper);
-    }
+    Optional<WalletEntity> findById(Long id);
 
-    @Override
-    public WalletEntity readWalletById(int id) throws EmptyResultDataAccessException {
-        String sql = "SELECT * FROM wallets WHERE id = ?";
-        return template.queryForObject(sql, walletRowMapper, id);
-    }
+    @Query("select w.id from WalletEntity as w")
+    List<Long> getAllId();
 
-    @Override
-    public List<Integer> getAllId() {
-        String sql = "SELECT id FROM wallets;";
-        return template.queryForList(sql, Integer.class);
-    }
+    @Query("select w.walletStatus from WalletEntity as w Where w.id = :id")
+    String getWalletStatusById(@Param("id") Long id);
 
-    @Override
-    public void createWallet(WalletEntity walletEntity) {
-        String sql = "INSERT INTO wallets (first_name, last_name, middle_name, passport_id, rub, usd, eur, wallet_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-        template.update(sql, walletEntity.getFirst_name(), walletEntity.getLast_name(), walletEntity.getMiddle_name(), walletEntity.getPassport_id(), walletEntity.getRub(),
-                walletEntity.getUsd(), walletEntity.getEur(), walletEntity.getDefaultWalletStatus());
-    }
+    @Modifying
+    @Query("update WalletEntity w set w.walletStatus = 'AVAILABLE' where w.id = :id")
+    Integer setAvailableStatus(@Param("id") Long id);
 
-    @Override
-    public void updateWallet(WalletEntity walletEntity) {
-        String sql = "UPDATE wallets SET first_name = ?, last_name = ?, middle_name = ?, passport_id = ?, rub = ?," +
-                " usd = ?, eur = ? WHERE id = ?";
-        template.update(sql, walletEntity.getFirst_name(), walletEntity.getLast_name(), walletEntity.getMiddle_name(), walletEntity.getPassport_id(),
-                walletEntity.getRub(), walletEntity.getUsd(), walletEntity.getEur(), walletEntity.getId());
 
-    }
+    @Modifying
+    @Query("from WalletEntity w where w.isDeleted = false")
+    List<WalletEntity> findNotDeleted();
 
-    @Override
-    public void fillBalance(int id, double amount, String currency) {
-        double sum = wallet.fill(readWalletById(id), amount, currency);
-        String sql = "UPDATE wallets SET " + currency + " = ? WHERE id = ?";
-        template.update(sql, sum, id);
-    }
+    @Modifying
+    @Query("from WalletEntity w where w.isDeleted = true")
+    List<WalletEntity> findDeleted();
 
-    @Override
-    public void deleteWallet(int id) {
-        String sql = "DELETE FROM wallets WHERE id = ?";
-        template.update(sql, id);
-    }
+    @Transactional
+    @Modifying
+    @Query("update WalletEntity w set w.isDeleted = true where w.id = :id")
+    Integer softDeleteById(@Param("id") Long id);
+
+
+    @Query("select w.isDeleted from WalletEntity w where w.id = :id")
+    Boolean ifSoftDeleted(Long id);
+    // изменить
+    // Пишем с тобой 3 разных метода: fillRub, fillUsd,fillEur
+    // потом в сервисе уже управляем выбором метода из репозитория, то есть один метод
+    // который принимает строку валюты от контроллера, и в соответствии с валютой
+    // вызывает запрос в репозитории
+
+
+//    @Modifying
+//    @Query("update WalletEntity w set :currency = :currency + amount where w.id = id")
+//    // UPDATE wallet SET currency = currency + amount WHERE w.id = id;
+//    void fillBalance(@Param("id") Long id,
+//                     @Param("amount") double amount,
+//                     @Param("currency") String currency);
+
+    @Modifying
+    @Query("update WalletEntity w set w.rub = w.rub + :amount where w.id = :id")
+    void fillRub(@Param("id") Long id,
+                 @Param("amount") BigDecimal amount);
+
+    @Modifying
+    @Query("update WalletEntity w set w.usd = w.usd + :amount where w.id = :id")
+    void fillUsd(@Param("id") Long id,
+                 @Param("amount") BigDecimal amount);
+
+    @Modifying
+    @Query("update WalletEntity w set w.eur = w.eur + :amount where w.id = :id")
+    void fillEur(@Param("id") Long id,
+                 @Param("amount") BigDecimal amount);
 }

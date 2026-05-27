@@ -2,6 +2,7 @@ package com.example.wallet.service.currency;
 
 import com.example.wallet.entity.WalletEntity;
 
+import java.math.BigDecimal;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -10,20 +11,20 @@ public enum CurrencyType {
     USD(WalletEntity::getUsd, WalletEntity::setUsd),
     EUR(WalletEntity::getEur, WalletEntity::setEur);
 
-    private final Function<WalletEntity, Double> getter;
-    private final BiConsumer<WalletEntity, Double> setter;
+    private final Function<WalletEntity, BigDecimal> getter;
+    private final BiConsumer<WalletEntity, BigDecimal> setter;
 
-    CurrencyType(Function<WalletEntity, Double> getter,
-                 BiConsumer<WalletEntity, Double> setter) {
+    CurrencyType(Function<WalletEntity, BigDecimal> getter,
+                 BiConsumer<WalletEntity, BigDecimal> setter) {
         this.getter = getter;
         this.setter = setter;
     }
 
-    public double get(WalletEntity walletEntity) {
+    public BigDecimal get(WalletEntity walletEntity) {
         return getter.apply(walletEntity);
     }
 
-    public void set(WalletEntity walletEntity, double value) {
+    public void set(WalletEntity walletEntity, BigDecimal value) {
         setter.accept(walletEntity, value);
     }
 }

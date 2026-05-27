@@ -1,6 +1,6 @@
 package com.example.wallet.service;
 
-import com.example.wallet.DTO.CurrencyDTO;
+import com.example.wallet.DTO.FillDTO;
 import com.example.wallet.DTO.WalletDTO;
 import com.example.wallet.entity.WalletEntity;
 import org.mapstruct.Mapper;
@@ -15,5 +15,5 @@ public interface WalletMapper {
     WalletEntity toEntity(WalletDTO dto);
 
     @Mapping(target = "id", source = "id")
-    WalletEntity toEntityCurrency(CurrencyDTO currencyDTO);
+    FillDTO fillToEntity(FillDTO dto);
 }

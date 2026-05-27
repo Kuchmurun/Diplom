@@ -19,11 +19,16 @@ public class WalletService {
 
     public void createWallet(WalletDTO dto) {
         WalletEntity walletEntity = mapper.toEntity(dto);
-        repository.createWallet(walletEntity);
+        walletEntity.setWalletStatus(walletEntity.getDefaultWalletStatus());
+        System.out.println("----------------TEST----------------");
+        System.out.println(dto.toString());
+        System.out.println(walletEntity.toString());
+        repository.save(walletEntity);
     }
 
     public void updateWallet(WalletDTO dto) {
         WalletEntity walletEntity = mapper.toEntity(dto);
-        repository.updateWallet(walletEntity);
+        walletEntity.setWalletStatus(walletEntity.getDefaultWalletStatus());
+        repository.save(walletEntity);
     }
 }
