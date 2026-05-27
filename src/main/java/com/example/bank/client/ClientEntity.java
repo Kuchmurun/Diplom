@@ -26,11 +26,11 @@ public class ClientEntity {
 
     private LocalDate birthDate;
 
-    private BigDecimal salary;
+    private BigDecimal monthlyIncome;
 
     private Boolean hasCriminalRecord;
 
-    private Integer creditScore;
+    private Integer creditHistoryScore;
 
     private BigDecimal currentCreditDebt;
 
