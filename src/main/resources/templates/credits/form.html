@@ -8,6 +8,10 @@
 
 <h1>Create credit application</h1>
 
+<div style="color: red;" th:if="${error}">
+    <p th:text="${error}"></p>
+</div>
+
 <form method="post" th:action="@{/credits}">
 
     <label>Client:</label>
@@ -21,12 +25,12 @@
     <br><br>
 
     <label>Requested amount:</label>
-    <input name="requestedAmount" required step="0.01" type="number">
+    <input name="requestedAmount" required step="0.01" th:value="${requestedAmount}" type="number">
 
     <br><br>
 
     <label>Requested months:</label>
-    <input name="requestedMonths" required type="number">
+    <input name="requestedMonths" required th:value="${requestedMonths}" type="number">
 
     <br><br>
 

@@ -53,7 +53,7 @@ public class CreditScoringService {
         }
 
         CreditReliabilityLevel level = defineLevel(score);
-        BigDecimal approvedAmount = calculateApprovedAmount(client, level);
+        BigDecimal approvedAmount = calculateApprovedAmount(application, client, level);
 
         String reason = buildReason(score, level);
 
@@ -82,19 +82,35 @@ public class CreditScoringService {
     }
 
 
-    private BigDecimal calculateApprovedAmount(ClientEntity client, CreditReliabilityLevel level) {
+    private BigDecimal calculateApprovedAmount(CreditApplicationEntity application,
+                                               ClientEntity client,
+                                               CreditReliabilityLevel level) {
         BigDecimal income = client.getMonthlyIncome() == null
                 ? BigDecimal.ZERO
                 : client.getMonthlyIncome();
 
-        return switch (level) {
+        BigDecimal baseLimit = switch (level) {
             case HIGH -> income.multiply(BigDecimal.valueOf(12));
             case MEDIUM -> income.multiply(BigDecimal.valueOf(6));
             case LOW -> BigDecimal.ZERO;
         };
+
+        if (application.getRequestedAmount() == null) {
+            return baseLimit;
+        }
+
+        return baseLimit.min(application.getRequestedAmount());
     }
 
     private String buildReason(int score, CreditReliabilityLevel level) {
-        return "Итоговый скоринговый балл: " + score + ". Уровень надежности: " + level;
+        if (level == CreditReliabilityLevel.HIGH) {
+            return "Клиент имеет высокий уровень кредитной надежности. Заявка может быть одобрена автоматически.";
+        }
+
+        if (level == CreditReliabilityLevel.MEDIUM) {
+            return "Клиент имеет средний уровень кредитной надежности. Требуется ручная проверка кредитным специалистом.";
+        }
+
+        return "Клиент имеет низкий уровень кредитной надежности. Выдача кредита не рекомендуется.";
     }
 }

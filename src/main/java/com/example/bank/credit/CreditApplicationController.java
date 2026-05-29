@@ -32,15 +32,26 @@ public class CreditApplicationController {
     @PostMapping
     public String create(@RequestParam Long clientId,
                          @RequestParam BigDecimal requestedAmount,
-                         @RequestParam Integer requestedMonths) {
+                         @RequestParam Integer requestedMonths,
+                         Model model) {
+        try {
+            CreditApplicationEntity application = applicationService.create(
+                    clientId,
+                    requestedAmount,
+                    requestedMonths
+            );
 
-        CreditApplicationEntity application = applicationService.create(
-                clientId,
-                requestedAmount,
-                requestedMonths
-        );
+            return "redirect:/credits/" + application.getId();
 
-        return "redirect:/credits/" + application.getId();
+        } catch (IllegalArgumentException exception) {
+            model.addAttribute("clients", clientService.findAllActive());
+            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("selectedClientId", clientId);
+            model.addAttribute("requestedAmount", requestedAmount);
+            model.addAttribute("requestedMonths", requestedMonths);
+
+            return "credits/form";
+        }
     }
 
     @GetMapping("/{id}")
