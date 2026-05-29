@@ -38,6 +38,8 @@
         <td th:text="${employee.role}"></td>
         <td th:text="${employee.enabled}"></td>
         <td>
+            <a th:href="@{/employees/{id}/edit(id=${employee.id})}">Edit</a>
+
             <form method="post" th:action="@{/employees/{id}/toggle(id=${employee.id})}">
                 <button type="submit">Enable / Disable</button>
             </form>

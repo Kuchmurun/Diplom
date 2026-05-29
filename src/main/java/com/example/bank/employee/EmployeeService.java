@@ -53,4 +53,27 @@ public class EmployeeService {
                 "Изменён статус сотрудника: " + employee.getUsername()
         );
     }
+
+    public EmployeeEntity update(Long id, EmployeeEntity formEmployee) {
+        EmployeeEntity employee = findById(id);
+
+        employee.setFullName(formEmployee.getFullName());
+        employee.setUsername(formEmployee.getUsername());
+        employee.setRole(formEmployee.getRole());
+
+        if (formEmployee.getPassword() != null && !formEmployee.getPassword().isBlank()) {
+            employee.setPassword(passwordEncoder.encode(formEmployee.getPassword()));
+        }
+
+        EmployeeEntity savedEmployee = employeeRepository.save(employee);
+
+        auditService.log(
+                "UPDATE_EMPLOYEE",
+                "Employee",
+                savedEmployee.getId(),
+                "Изменены данные сотрудника: " + savedEmployee.getUsername()
+        );
+
+        return savedEmployee;
+    }
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Access denied</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Access denied</h1>
+
+<p>У вас недостаточно прав для просмотра этой страницы.</p>
+
+<a th:href="@{/clients}">Back to clients</a>
+|
+<a th:href="@{/credits}">Credit applications</a>
+
+<br><br>
+
+<form method="post" th:action="@{/logout}">
+    <button type="submit">Logout</button>
+</form>
+
+</body>
+</html>

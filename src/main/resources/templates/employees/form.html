@@ -8,7 +8,9 @@
 
 <h1>Create employee</h1>
 
-<form method="post" th:action="@{/employees}" th:object="${employee}">
+<form method="post"
+      th:action="${employee.id == null} ? @{/employees} : @{/employees/{id}/edit(id=${employee.id})}"
+      th:object="${employee}">
 
     <label>Full name:</label>
     <input required th:field="*{fullName}" type="text">
@@ -21,7 +23,10 @@
     <br><br>
 
     <label>Password:</label>
-    <input required th:field="*{password}" type="password">
+    <input th:field="*{password}" th:required="${employee.id == null}" type="password">
+    <small th:if="${employee.id != null}">
+        Leave empty to keep current password
+    </small>
 
     <br><br>
 

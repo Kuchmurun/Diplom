@@ -23,19 +23,24 @@ public class SecurityConfig {
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/employees/**").hasRole("ADMIN")
                         .requestMatchers("/audit/**").hasAnyRole("ADMIN", "AUDITOR")
+                        .requestMatchers("/reports/**").hasAnyRole("ADMIN", "ANALYST", "AUDITOR")
                         .requestMatchers("/clients/**").hasAnyRole("ADMIN", "MANAGER", "ANALYST")
                         .requestMatchers("/credits/*/calculate").hasAnyRole("ADMIN", "ANALYST")
                         .requestMatchers("/credits/**").hasAnyRole("ADMIN", "MANAGER", "ANALYST")
+                        .requestMatchers("/admin/backup").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
-                        .defaultSuccessUrl("/clients", true)
+                        .defaultSuccessUrl("/dashboard", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
+                )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/access-denied")
                 )
                 .authenticationProvider(authenticationProvider())
                 .build();

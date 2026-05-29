@@ -36,4 +36,17 @@ public class EmployeeController {
         employeeService.toggleEnabled(id);
         return "redirect:/employees";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("employee", employeeService.findById(id));
+        model.addAttribute("roles", EmployeeRole.values());
+        return "employees/form";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String update(@PathVariable Long id, @ModelAttribute EmployeeEntity employee) {
+        employeeService.update(id, employee);
+        return "redirect:/employees";
+    }
 }

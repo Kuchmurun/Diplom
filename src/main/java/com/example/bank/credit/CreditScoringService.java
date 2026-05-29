@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Service
@@ -17,17 +18,32 @@ public class CreditScoringService {
         ClientEntity client = application.getClient();
 
         int score = 50;
+        StringBuilder reason = new StringBuilder();
 
         if (client.getMonthlyIncome() != null) {
             int incomeScore = client.getMonthlyIncome()
-                    .divide(BigDecimal.valueOf(10_000), 0, java.math.RoundingMode.DOWN)
+                    .divide(BigDecimal.valueOf(10_000), 0, RoundingMode.DOWN)
                     .intValue();
 
-            score += Math.min(incomeScore, 30);
+            int added = Math.min(incomeScore, 30);
+            score += added;
+
+            reason.append("Доход клиента добавил ")
+                    .append(added)
+                    .append(" баллов. ");
+        } else {
+            reason.append("Доход клиента не указан. ");
         }
 
         if (client.getCreditHistoryScore() != null) {
-            score += Math.min(client.getCreditHistoryScore() / 5, 20);
+            int added = Math.min(client.getCreditHistoryScore() / 5, 20);
+            score += added;
+
+            reason.append("Кредитная история добавила ")
+                    .append(added)
+                    .append(" баллов. ");
+        } else {
+            reason.append("Кредитная история не указана. ");
         }
 
         if (client.getCurrentCreditDebt() != null && client.getMonthlyIncome() != null) {
@@ -35,34 +51,35 @@ public class CreditScoringService {
 
             if (client.getCurrentCreditDebt().compareTo(debtLimit) > 0) {
                 score -= 25;
+                reason.append("Высокая долговая нагрузка снизила оценку на 25 баллов. ");
             } else {
                 score -= 10;
+                reason.append("Наличие текущей задолженности снизило оценку на 10 баллов. ");
             }
         }
 
         if (Boolean.TRUE.equals(client.getHasCriminalRecord())) {
             score -= 30;
+            reason.append("Наличие судимости снизило оценку на 30 баллов. ");
         }
 
-        if (score < 0) {
-            score = 0;
-        }
-
-        if (score > 100) {
-            score = 100;
-        }
+        score = Math.max(0, Math.min(score, 100));
 
         CreditReliabilityLevel level = defineLevel(score);
         BigDecimal approvedAmount = calculateApprovedAmount(application, client, level);
 
-        String reason = buildReason(score, level);
+        reason.append("Итоговый балл: ")
+                .append(score)
+                .append(". Уровень надежности: ")
+                .append(level)
+                .append(".");
 
         CreditScoreResultEntity result = CreditScoreResultEntity.builder()
                 .application(application)
                 .score(score)
                 .reliabilityLevel(level)
                 .approvedAmount(approvedAmount)
-                .decisionReason(reason)
+                .decisionReason(reason.toString())
                 .calculatedAt(LocalDateTime.now())
                 .build();
 
@@ -80,7 +97,6 @@ public class CreditScoringService {
 
         return CreditReliabilityLevel.LOW;
     }
-
 
     private BigDecimal calculateApprovedAmount(CreditApplicationEntity application,
                                                ClientEntity client,
@@ -100,17 +116,5 @@ public class CreditScoringService {
         }
 
         return baseLimit.min(application.getRequestedAmount());
-    }
-
-    private String buildReason(int score, CreditReliabilityLevel level) {
-        if (level == CreditReliabilityLevel.HIGH) {
-            return "Клиент имеет высокий уровень кредитной надежности. Заявка может быть одобрена автоматически.";
-        }
-
-        if (level == CreditReliabilityLevel.MEDIUM) {
-            return "Клиент имеет средний уровень кредитной надежности. Требуется ручная проверка кредитным специалистом.";
-        }
-
-        return "Клиент имеет низкий уровень кредитной надежности. Выдача кредита не рекомендуется.";
     }
 }
