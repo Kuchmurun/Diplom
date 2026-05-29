@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Client details</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Client details</h1>
+
+<p>
+    <strong>ID:</strong>
+    <span th:text="${client.id}"></span>
+</p>
+
+<p>
+    <strong>Full name:</strong>
+    <span th:text="${client.fullName}"></span>
+</p>
+
+<p>
+    <strong>Gender:</strong>
+    <span th:text="${client.gender}"></span>
+</p>
+
+<p>
+    <strong>Monthly income:</strong>
+    <span th:text="${client.monthlyIncome}"></span>
+</p>
+
+<p>
+    <strong>Credit history score:</strong>
+    <span th:text="${client.creditHistoryScore}"></span>
+</p>
+
+<p>
+    <strong>Current credit debt:</strong>
+    <span th:text="${client.currentCreditDebt}"></span>
+</p>
+
+<p>
+    <strong>Criminal record:</strong>
+    <span th:text="${client.hasCriminalRecord}"></span>
+</p>
+
+<br>
+
+<a th:href="@{/clients}">Back</a>
+
+</body>
+</html>

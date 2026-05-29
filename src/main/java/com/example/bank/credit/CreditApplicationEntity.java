@@ -21,6 +21,7 @@ public class CreditApplicationEntity {
     private Long id;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
     private ClientEntity client;
 
     private BigDecimal requestedAmount;

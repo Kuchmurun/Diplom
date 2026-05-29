@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Clients</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Clients</h1>
+
+<form method="get" th:action="@{/clients}">
+    <input name="search" placeholder="Search by full name" type="text">
+    <button type="submit">Search</button>
+</form>
+
+<br>
+
+<a th:href="@{/clients/new}">Create client</a>
+
+<br><br>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Full name</th>
+        <th>Gender</th>
+        <th>Income</th>
+        <th>Credit history score</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="client : ${clients}">
+        <td th:text="${client.id}"></td>
+        <td th:text="${client.fullName}"></td>
+        <td th:text="${client.gender}"></td>
+        <td th:text="${client.monthlyIncome}"></td>
+        <td th:text="${client.creditHistoryScore}"></td>
+
+        <td>
+            <a th:href="@{/clients/{id}(id=${client.id})}">Details</a>
+
+            <a th:href="@{/clients/{id}/edit(id=${client.id})}">
+                Edit
+            </a>
+
+            <form method="post"
+                  style="display:inline;"
+                  th:action="@{/clients/{id}/delete(id=${client.id})}">
+
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

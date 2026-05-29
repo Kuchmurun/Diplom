@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create credit application</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Create credit application</h1>
+
+<form method="post" th:action="@{/credits}">
+
+    <label>Client:</label>
+    <select name="clientId" required>
+        <option th:each="client : ${clients}"
+                th:text="${client.fullName}"
+                th:value="${client.id}">
+        </option>
+    </select>
+
+    <br><br>
+
+    <label>Requested amount:</label>
+    <input name="requestedAmount" required step="0.01" type="number">
+
+    <br><br>
+
+    <label>Requested months:</label>
+    <input name="requestedMonths" required type="number">
+
+    <br><br>
+
+    <button type="submit">Create</button>
+
+</form>
+
+<br>
+
+<a th:href="@{/credits}">Back</a>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Credit application details</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Credit application details</h1>
+
+<p>
+    <strong>ID:</strong>
+    <span th:text="${credit.id}"></span>
+</p>
+
+<p>
+    <strong>Client:</strong>
+    <span th:text="${credit.client.fullName}"></span>
+</p>
+
+<p>
+    <strong>Requested amount:</strong>
+    <span th:text="${credit.requestedAmount}"></span>
+</p>
+
+<p>
+    <strong>Requested months:</strong>
+    <span th:text="${credit.requestedMonths}"></span>
+</p>
+
+<p>
+    <strong>Status:</strong>
+    <span th:text="${credit.status}"></span>
+</p>
+
+<form method="post" th:action="@{/credits/{id}/calculate(id=${credit.id})}">
+    <button type="submit">Calculate credit reliability</button>
+</form>
+
+<hr>
+
+<h2>Scoring result</h2>
+
+<div th:if="${scoreResult == null}">
+    <p>Scoring has not been calculated yet.</p>
+</div>
+
+<div th:if="${scoreResult != null}">
+    <p>
+        <strong>Score:</strong>
+        <span th:text="${scoreResult.score}"></span>
+    </p>
+
+    <p>
+        <strong>Reliability level:</strong>
+        <span th:text="${scoreResult.reliabilityLevel}"></span>
+    </p>
+
+    <p>
+        <strong>Approved amount:</strong>
+        <span th:text="${scoreResult.approvedAmount}"></span>
+    </p>
+
+    <p>
+        <strong>Decision reason:</strong>
+        <span th:text="${scoreResult.decisionReason}"></span>
+    </p>
+
+    <p>
+        <strong>Calculated at:</strong>
+        <span th:text="${scoreResult.calculatedAt}"></span>
+    </p>
+</div>
+
+<br>
+
+<a th:href="@{/credits}">Back</a>
+
+</body>
+</html>

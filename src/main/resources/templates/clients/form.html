@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Client form</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Client form</h1>
+
+<form method="post" th:action="@{/clients}" th:object="${client}">
+
+    <input th:field="*{id}" type="hidden">
+
+    <label>Full name:</label>
+    <input th:field="*{fullName}" type="text">
+    <br><br>
+
+    <label>Gender:</label>
+
+    <select th:field="*{gender}">
+        <option th:each="gender : ${genders}"
+                th:text="${gender}"
+                th:value="${gender}">
+        </option>
+    </select>
+
+    <br><br>
+
+    <label>Monthly income:</label>
+    <input step="0.01" th:field="*{monthlyIncome}" type="number">
+    <br><br>
+
+    <label>Credit history score:</label>
+    <input th:field="*{creditHistoryScore}" type="number">
+    <br><br>
+
+    <label>Current credit debt:</label>
+    <input step="0.01" th:field="*{currentCreditDebt}" type="number">
+    <br><br>
+
+    <label>Has criminal record:</label>
+    <input th:field="*{hasCriminalRecord}" type="checkbox">
+    <br><br>
+
+    <button type="submit">Save</button>
+
+</form>
+
+<br>
+
+<a th:href="@{/clients}">Back</a>
+
+</body>
+</html>
