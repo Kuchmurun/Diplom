@@ -18,7 +18,7 @@ public class BackupService {
         String backupPath = "backups" + File.separator + fileName;
 
         ProcessBuilder processBuilder = new ProcessBuilder(
-                "D:\\java\\pgAdmin 4\\runtime",
+                "D:\\java\\pgAdmin 4\\runtime\\pg_dump.exe",
                 "-U", "postgres",
                 "-d", "pulsar",
                 "-f", backupPath
