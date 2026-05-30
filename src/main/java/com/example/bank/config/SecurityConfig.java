@@ -27,7 +27,7 @@ public class SecurityConfig {
                         .requestMatchers("/clients/**").hasAnyRole("ADMIN", "MANAGER", "ANALYST")
                         .requestMatchers("/credits/*/calculate").hasAnyRole("ADMIN", "ANALYST")
                         .requestMatchers("/credits/**").hasAnyRole("ADMIN", "MANAGER", "ANALYST")
-                        .requestMatchers("/admin/backup").hasRole("ADMIN")
+                        .requestMatchers("/backup/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login

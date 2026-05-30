@@ -18,6 +18,7 @@
             <a class="nav-link" th:href="@{/reports}">Отчёты</a>
             <a class="nav-link" th:href="@{/audit}">Журнал действий</a>
             <a class="nav-link" th:href="@{/employees}">Сотрудники</a>
+            <a class="nav-link" th:href="@{/backup}">Резервное копирование</a>
         </div>
 
         <form class="d-flex" method="post" th:action="@{/logout}">
@@ -89,13 +90,6 @@
     </div>
 
     <hr class="my-4">
-
-    <h3>Для администрации</h3>
-
-    <form method="post" th:action="@{/admin/backup}">
-        <button class="btn btn-primary" type="submit">Создать откат базы данных</button>
-    </form>
-
 </div>
 
 </body>
