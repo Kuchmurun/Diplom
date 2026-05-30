@@ -13,15 +13,15 @@
         <a class="navbar-brand" th:href="@{/dashboard}">Pulsar Bank</a>
 
         <div class="navbar-nav">
-            <a class="nav-link" th:href="@{/clients}">Clients</a>
-            <a class="nav-link" th:href="@{/credits}">Credit applications</a>
-            <a class="nav-link" th:href="@{/reports}">Reports</a>
-            <a class="nav-link" th:href="@{/audit}">Audit log</a>
-            <a class="nav-link" th:href="@{/employees}">Employees</a>
+            <a class="nav-link" th:href="@{/clients}">Клиенты</a>
+            <a class="nav-link" th:href="@{/credits}">Кредитные заявки</a>
+            <a class="nav-link" th:href="@{/reports}">Отчёты</a>
+            <a class="nav-link" th:href="@{/audit}">Журнал действий</a>
+            <a class="nav-link" th:href="@{/employees}">Сотрудники</a>
         </div>
 
         <form class="d-flex" method="post" th:action="@{/logout}">
-            <button class="btn btn-outline-light btn-sm" type="submit">Logout</button>
+            <button class="btn btn-outline-light btn-sm" type="submit">Выйти</button>
         </form>
     </div>
 </nav>
@@ -35,7 +35,7 @@
         <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5>Clients</h5>
+                    <h5>Клиенты</h5>
                     <h2 th:text="${clientsCount}"></h2>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5>Employees</h5>
+                    <h5>Сотрудники</h5>
                     <h2 th:text="${employeesCount}"></h2>
                 </div>
             </div>
@@ -53,7 +53,7 @@
         <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5>Credit applications</h5>
+                    <h5>Кредитные заявки</h5>
                     <h2 th:text="${applicationsCount}"></h2>
                 </div>
             </div>
@@ -62,7 +62,7 @@
         <div class="col-md-4">
             <div class="card border-success shadow-sm">
                 <div class="card-body">
-                    <h5>Approved</h5>
+                    <h5>Одобрено</h5>
                     <h2 th:text="${approvedCount}"></h2>
                 </div>
             </div>
@@ -71,7 +71,7 @@
         <div class="col-md-4">
             <div class="card border-danger shadow-sm">
                 <div class="card-body">
-                    <h5>Rejected</h5>
+                    <h5>Отклонено</h5>
                     <h2 th:text="${rejectedCount}"></h2>
                 </div>
             </div>
@@ -80,7 +80,7 @@
         <div class="col-md-4">
             <div class="card border-warning shadow-sm">
                 <div class="card-body">
-                    <h5>Manual review</h5>
+                    <h5>На ручной проверке</h5>
                     <h2 th:text="${manualReviewCount}"></h2>
                 </div>
             </div>
@@ -90,10 +90,10 @@
 
     <hr class="my-4">
 
-    <h3>Administration</h3>
+    <h3>Для администрации</h3>
 
     <form method="post" th:action="@{/admin/backup}">
-        <button class="btn btn-primary" type="submit">Create database backup</button>
+        <button class="btn btn-primary" type="submit">Создать откат базы данных</button>
     </form>
 
 </div>
