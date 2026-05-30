@@ -3,53 +3,109 @@
 <head>
     <title>Reports</title>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
 
-<h1>Reports</h1>
+<body class="bg-light">
 
-<a th:href="@{/dashboard}">Dashboard</a>
-|
-<a th:href="@{/clients}">Clients</a>
-|
-<a th:href="@{/credits}">Credit applications</a>
-|
-<a th:href="@{/audit}">Audit log</a>
-|
-<a th:href="@{/employees}">Employees</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/dashboard}">Pulsar Bank</a>
 
-<br><br>
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/clients}">Clients</a>
+            <a class="nav-link" th:href="@{/credits}">Credit applications</a>
+            <a class="nav-link active" th:href="@{/reports}">Reports</a>
+            <a class="nav-link" th:href="@{/audit}">Audit log</a>
+            <a class="nav-link" th:href="@{/employees}">Employees</a>
+        </div>
 
-<table border="1">
-    <tr>
-        <th>Report metric</th>
-        <th>Value</th>
-    </tr>
-    <tr>
-        <td>Total credit applications</td>
-        <td th:text="${applicationsCount}"></td>
-    </tr>
-    <tr>
-        <td>Approved applications</td>
-        <td th:text="${approvedCount}"></td>
-    </tr>
-    <tr>
-        <td>Rejected applications</td>
-        <td th:text="${rejectedCount}"></td>
-    </tr>
-    <tr>
-        <td>Manual review applications</td>
-        <td th:text="${manualReviewCount}"></td>
-    </tr>
-    <tr>
-        <td>Total approved amount</td>
-        <td th:text="${totalApprovedAmount}"></td>
-    </tr>
-    <tr>
-        <td>Average credit score</td>
-        <td th:text="${averageScore}"></td>
-    </tr>
-</table>
+        <form method="post" th:action="@{/logout}">
+            <button class="btn btn-outline-light btn-sm">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">Reports</h1>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Total applications</h5>
+                    <h2 th:text="${applicationsCount}"></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-success shadow-sm">
+                <div class="card-body">
+                    <h5>Approved</h5>
+                    <h2 th:text="${approvedCount}"></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-danger shadow-sm">
+                <div class="card-body">
+                    <h5>Rejected</h5>
+                    <h2 th:text="${rejectedCount}"></h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h2 class="mb-0">Credit analytics</h2>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-striped">
+
+                <tr>
+                    <th>Total credit applications</th>
+                    <td th:text="${applicationsCount}"></td>
+                </tr>
+
+                <tr>
+                    <th>Approved applications</th>
+                    <td th:text="${approvedCount}"></td>
+                </tr>
+
+                <tr>
+                    <th>Rejected applications</th>
+                    <td th:text="${rejectedCount}"></td>
+                </tr>
+
+                <tr>
+                    <th>Manual review applications</th>
+                    <td th:text="${manualReviewCount}"></td>
+                </tr>
+
+                <tr>
+                    <th>Total approved amount</th>
+                    <td th:text="${totalApprovedAmount}"></td>
+                </tr>
+
+                <tr>
+                    <th>Average credit score</th>
+                    <td th:text="${averageScore}"></td>
+                </tr>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>
